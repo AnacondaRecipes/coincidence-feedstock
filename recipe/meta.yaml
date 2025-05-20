@@ -6,8 +6,8 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: be29e3ed30222ab309784527b21e8669a2bc997ac456658fc7cf981d20566189
+  url: https://github.com/python-{{ name }}/{{ name }}/archive/refs/tags/v{{ version }}.tar.gz
+  sha256: 12574ec97dfc768a09711894a535ab07485549d0063e1ded5b6008fb355b2f4b
 
 build:
   number: 0
@@ -27,12 +27,17 @@ requirements:
     - typing-extensions >=3.7.4.3
 
 test:
+  source_files:
+    - tests
   imports:
     - coincidence
   commands:
     - pip check
+    - pytest -v tests
   requires:
     - pip
+    - pytest
+    - toml
 
 about:
   home: https://github.com/python-coincidence/coincidence
