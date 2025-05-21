@@ -1,0 +1,54 @@
+{% set name = "coincidence" %}
+{% set version = "0.6.6" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://github.com/python-{{ name }}/{{ name }}/archive/refs/tags/v{{ version }}.tar.gz
+  sha256: 12574ec97dfc768a09711894a535ab07485549d0063e1ded5b6008fb355b2f4b
+
+build:
+  number: 0
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+  skip: True  # [py<36]
+
+requirements:
+  host:
+    - python
+    - whey
+    - pip
+  run:
+    - python
+    - domdf-python-tools >=2.8.0
+    - pytest >=6.2.0
+    - pytest-regressions >=2.0.2
+    - typing-extensions >=3.7.4.3
+
+test:
+  source_files:
+    - tests
+  imports:
+    - coincidence
+  commands:
+    - pip check
+    - pytest -v tests
+  requires:
+    - pip
+    - pytest
+    - toml
+
+about:
+  home: https://github.com/python-coincidence/coincidence
+  summary: Helper functions for pytest.
+  license: MIT
+  license_family: MIT
+  license_file: LICENSE
+  description: Helper functions for pytest.
+  dev_url: https://github.com/python-coincidence/coincidence
+  doc_url: https://coincidence.readthedocs.io
+
+extra:
+  recipe-maintainers:
+    - snegireff
